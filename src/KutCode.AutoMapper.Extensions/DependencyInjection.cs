@@ -9,13 +9,15 @@ namespace AutoMapper;
 public static class DependencyInjection
 {
 	private static readonly Type MapWith = typeof(IMapWith<>);
+	private static readonly Type MapFrom = typeof(IMapFrom<>);
+	private static readonly Type MapTo = typeof(IMapTo<>);
 	private static readonly Type HaveMap = typeof(IHaveMap);
 	
 	/// <summary>
 	/// Adds AutoMapper with profiles from all Application Domain assemblies
 	/// </summary>
 	/// <param name="services">A collection of service descriptors</param>
-	/// <param name="configAction">Configuration action to specify configuration of AutoMapper</param>
+	/// <param name="additionalConfigActionWithServiceProvider">Configuration action to specify configuration of AutoMapper</param>
 	/// <param name="catchDefaultProfiles">Should register default Profiles, written in default AutoMapper way</param>
 	/// <returns>The <see cref="IServiceCollection"/> for chaining</returns>
 	public static IServiceCollection AddAllMappings(
@@ -58,8 +60,12 @@ public static class DependencyInjection
 				var interfaces = types.Where(x => x.IsInterface == false)
 					.Where(type => type.GetInterfaces()
 						.Any(i => 
-							(i.IsGenericType && MapWith.IsAssignableFrom(i.GetGenericTypeDefinition())) ||
-							HaveMap.IsAssignableFrom(i)))
+							(i.IsGenericType && MapWith.IsAssignableFrom(i.GetGenericTypeDefinition()))
+							|| (i.IsGenericType && MapTo.IsAssignableFrom(i.GetGenericTypeDefinition()))
+							|| (i.IsGenericType && MapFrom.IsAssignableFrom(i.GetGenericTypeDefinition()))
+							|| HaveMap.IsAssignableFrom(i)
+						)
+					)
 					.ToArray();
 				if (interfaces.Length == 0) continue;
 				cfg.AddProfile(new AssemblyMappingProfile(interfaces));
@@ -95,8 +101,12 @@ public static class DependencyInjection
 				var interfaces = types.Where(x => x.IsInterface == false)
 					.Where(type => type.GetInterfaces()
 						.Any(i => 
-							(i.IsGenericType && MapWith.IsAssignableFrom(i.GetGenericTypeDefinition())) ||
-							HaveMap.IsAssignableFrom(i)))
+							(i.IsGenericType && MapWith.IsAssignableFrom(i.GetGenericTypeDefinition()))
+							|| (i.IsGenericType && MapTo.IsAssignableFrom(i.GetGenericTypeDefinition()))
+							|| (i.IsGenericType && MapFrom.IsAssignableFrom(i.GetGenericTypeDefinition()))
+							|| HaveMap.IsAssignableFrom(i)
+						)
+					)
 					.ToArray();
 				if (interfaces.Length == 0) continue;
 				cfg.AddProfile(new AssemblyMappingProfile(interfaces));

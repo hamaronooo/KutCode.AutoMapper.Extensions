@@ -51,7 +51,7 @@ internal class AssemblyMappingProfile : Profile
 				
 				if (typeOfMapPartner == null)
 					continue;
-					
+				
 				if (genericTypeDef == GenericMapWith)
 					CreateMap(objectType, typeOfMapPartner).ReverseMap();
 				else if (genericTypeDef == GenericMapTo)

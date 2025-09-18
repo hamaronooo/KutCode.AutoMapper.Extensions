@@ -13,9 +13,7 @@ public interface IHaveMap
 }
 
 /// <summary>
-/// Base interface for mapping between types.
 /// Implementing this interface creates a two-way mapping (with ReverseMap).
-/// Serves as a base interface for <see cref="IMapFrom{TSource}"/> and <see cref="IMapTo{TDestination}"/> interfaces.
 /// </summary>
 /// <typeparam name="TMember">The type to map with</typeparam>
 public interface IMapWith<TMember>;
@@ -24,10 +22,10 @@ public interface IMapWith<TMember>;
 /// Interface that creates a mapping from <typeparamref name="TSource"/> to the implementing type.
 /// </summary>
 /// <typeparam name="TSource">The source type to map from</typeparam>
-public interface IMapFrom<TSource> : IMapWith<TSource> {}
+public interface IMapFrom<TSource>;
 
 /// <summary>
 /// Interface that creates a mapping from the implementing type to <typeparamref name="TDestination"/>.
 /// </summary>
 /// <typeparam name="TDestination">The destination type to map to</typeparam>
-public interface IMapTo<TDestination> : IMapWith<TDestination> {}
+public interface IMapTo<TDestination>;
